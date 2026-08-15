@@ -60,8 +60,7 @@ I used Claude as a debugging and troubleshooting partner throughout this build, 
 
 **Business logic**
 - Placing an order automatically decrements inventory stock for each line item (via a Mongoose post-save hook)
-- Server-side generation of order IDs — never trusted from the client
-
+- Server-side generation of order IDs
 ---
 
 
