@@ -1,8 +1,9 @@
 import * as assets from './assets/FruitIcons';
 import type { TicketItemProps } from './Materials';
+import { API_BASE_URL } from './main'
  
-const API_BASE_URL = 'http://localhost:3001';
-
+//const API_BASE_URL = m.API_BASE_URL;
+ 
 //!TODO: Replace this with a real GET request to the server later
 export function getFruitItemsStatic(): TicketItemProps[] {
     return [
@@ -17,7 +18,7 @@ export function getFruitItemsStatic(): TicketItemProps[] {
 }
 
 // Maps the icon NAME stored in MongoDB (a plain string) back to the real component.
-const ICON_MAP: Record<string, FruitIconComponent> = {
+const ICON_MAP: Record<string, assets.FruitIconComponent> = {
     AppleIcon: assets.AppleIcon,
     OrangeIcon: assets.OrangeIcon,
     BananaIcon: assets.BananaIcon,
@@ -36,7 +37,7 @@ const ICON_MAP: Record<string, FruitIconComponent> = {
 };
  
 interface RawFruitItem {
-    itemID: number;
+    itemID: string | number;
     name: string;
     count: number;
     price: number;
@@ -55,6 +56,7 @@ export async function getFruitItems(): Promise<TicketItemProps[]> {
  
     return raw.map((item) => ({
         ...item,
+        itemID: String(item.itemID),
         icon: ICON_MAP[item.icon],
     }));
 }

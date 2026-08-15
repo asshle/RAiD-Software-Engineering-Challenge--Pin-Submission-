@@ -1,3 +1,5 @@
+import { API_BASE_URL } from './main'
+
 export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'out_for_delivery' | 'delivered' | 'cancelled';
  
 export interface OrderLineItem {
@@ -20,7 +22,6 @@ export interface Order extends NewOrder {
     createdAt: string;
 }
  
-const API_BASE_URL = 'http://localhost:3001';
  
 export async function getAllOrders(): Promise<Order[]> {
     const response = await fetch(`${API_BASE_URL}/api/getAllOrders`);

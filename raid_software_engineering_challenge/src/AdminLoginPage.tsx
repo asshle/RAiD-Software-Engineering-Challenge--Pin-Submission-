@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, TextField, Button, Alert } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { API_BASE_URL } from './main';
 
-
-//!TODO: Replace this with a real POST request to the server (e.g. /api/login) later.
-// The server should verify credentials and return a session token — never trust
-// a client-side "isAdmin" flag.
 async function loginAsAdmin(email: string, password: string): Promise<{ success: boolean }> {
 
-    const response = await fetch('http://localhost:3001/api/login', {
+    const uri = API_BASE_URL+'/api/login'
+    console.log(uri);
+    const response = await fetch(uri, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

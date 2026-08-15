@@ -8,7 +8,10 @@ import CheckoutPage from './CheckoutPage';
 import AdminLoginPage from './AdminLoginPage';
 import AdminPage from './AdminPage';
 
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
+
 createRoot(document.getElementById('root')!).render(
+    
   <StrictMode>
     <BrowserRouter>
             <Routes>
