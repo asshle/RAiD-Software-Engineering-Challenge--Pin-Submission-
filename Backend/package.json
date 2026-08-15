@@ -1,0 +1,21 @@
+{
+  "name": "fruitstore",
+  "version": "1.0.0",
+  "description": "Test Webserver for Fruit store POS to perform req for interfacing with db hosted on mongoDB Atlas ",
+  "license": "MIT ",
+  "author": "Lim Pin",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch index.js",
+    "dev": " node --watch dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.2",
+    "uuid": "^14.0.1"
+  }
+}
