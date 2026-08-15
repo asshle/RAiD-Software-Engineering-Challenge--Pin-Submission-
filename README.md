@@ -6,9 +6,9 @@ A full-stack point-of-sale web application for an online fruit store, built with
 
 ---
 ## Disclaimer
-```
+
 I used Claude as a debugging and troubleshooting partner throughout this build, particularly for tracing async/timing issues in React state, a Mongoose model-registration bug that silently broke document hydration, and a CORS failure that turned out to be a stale start script on Render. It was also useful for explaining underlying concepts as they came up — closures, functional state updates, CORS — rather than just supplying fixes.
-```
+
 
 ## Architecture
 
