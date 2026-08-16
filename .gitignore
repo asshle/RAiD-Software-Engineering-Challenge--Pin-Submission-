@@ -1,0 +1,14 @@
+
+# Environment variables / secrets
+.env
+atlas-credentials.env
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Editor/OS clutter
+.vscode/
+.DS_Store

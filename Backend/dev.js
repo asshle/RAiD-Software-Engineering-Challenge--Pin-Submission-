@@ -44,7 +44,6 @@ const userSchema = new mongoose.Schema({
     password: String,
 })
 
-// --- Models (registered once, reused everywhere — fixes the OverwriteModelError risk too) ---
 const Order = mongoose.model('order', orderSchema)
 const Inventory = mongoose.model('inventory', fruitSchema, 'inventory')
 const User = mongoose.model('users', userSchema, 'users')
@@ -63,7 +62,12 @@ app.post('/api/submitOrder', async (request, response) => {
     try {
         let totalCost = 0
         order.lineItems.forEach((element) => {
-            totalCost += element.qty * element.price
+            if (element.qty <= 0 || element.price <= 0) {
+                response.status(400).json({ error: "Invalid quantity or price, please try again" })
+            }else{
+                totalCost += element.qty * element.price
+            }
+            
         })
 
         const uniqueID = `ORD-${Math.floor(Math.random() * 900000 + 100000)}`
