@@ -219,7 +219,7 @@ export default function LandingPage() {
                 <Box sx={{ padding: 2 }}/> 
                 <HeroSection 
                     onPrimaryClick={() => {
-                       alert("Redirect to store page");
+                       //alert("Redirect to store page");
                     }}  
                 
                 />

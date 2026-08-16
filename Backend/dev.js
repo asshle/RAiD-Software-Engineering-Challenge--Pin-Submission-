@@ -44,6 +44,18 @@ const userSchema = new mongoose.Schema({
     password: String,
 })
 
+orderSchema.post('save', async function updateInventory(doc) {
+    try {
+        for (const element of doc.lineItems) {
+            await Inventory.updateOne(
+                { itemID: Number(element.itemID) },
+                { $inc: {count: -element.qty } }
+            )
+        }
+    } catch (err) {
+        console.log('failed to update inventory after order save:', err)
+    }
+})
 const Order = mongoose.model('order', orderSchema)
 const Inventory = mongoose.model('inventory', fruitSchema, 'inventory')
 const User = mongoose.model('users', userSchema, 'users')
@@ -58,20 +70,24 @@ mongoose.connect(uri, { family: 4 })
 
 app.post('/api/submitOrder', async (request, response) => {
     const order = request.body
-
+   
     try {
         let totalCost = 0
-        order.lineItems.forEach((element) => {
-            if (element.qty <= 0 || element.price <= 0) {
+        
+        for (const element of order.lineItems) { 
+            const item = await Inventory.findOne({ itemID: Number(element.itemID) })
+            if (element.qty <= 0 || 
+                element.price <= 0 || 
+                element.qty === undefined || 
+                element.price === undefined || 
+                element.qty > item.count ) {
                 response.status(400).json({ error: "Invalid quantity or price, please try again" })
             }else{
                 totalCost += element.qty * element.price
             }
-            
-        })
-
+        }
         const uniqueID = `ORD-${Math.floor(Math.random() * 900000 + 100000)}`
-
+        console.log(order)
         const newOrder = new Order({
             customerName: order.customerName,
             address: order.address,
@@ -79,7 +95,7 @@ app.post('/api/submitOrder', async (request, response) => {
             totalCost: totalCost,
             lineItems: order.lineItems,
         })
-
+        
         const saved = await newOrder.save()
         response.json(saved)
     } catch (err) {
@@ -87,18 +103,6 @@ app.post('/api/submitOrder', async (request, response) => {
     }
 })
 
-orderSchema.post('save', async function updateInventory(doc) {
-    try {
-        for (const element of doc.lineItems) {
-            await Inventory.updateOne(
-                { itemID: Number(element.itemID) },
-                { $inc: { count: -element.qty } }
-            )
-        }
-    } catch (err) {
-        console.log('failed to update inventory after order save:', err)
-    }
-})
 
 app.get('/api/getInventory', async (request, response) => {
     try {

@@ -126,7 +126,16 @@ export function TicketPaper({
 
 export function FruitCard({ item, onAdd }: FruitCardProps) {
     const [qty, setQty] = useState(1);
+    const [addedSoFar, setAddedSoFar] = useState(0);
     const { icon: IconComponent} = item;
+
+    const remaining = item.count - addedSoFar;
+
+    const handleAddClick = () => {   // renamed — this card's own click handler
+        onAdd?.(item.itemID, qty);    // calls LandingPage's real handleAdd, via the prop
+        setAddedSoFar((prev) => prev + qty);
+        setQty(1);
+    };
  
     return (
         <Card
@@ -198,7 +207,8 @@ export function FruitCard({ item, onAdd }: FruitCardProps) {
                 </Box>
  
                 <Button
-                    onClick={() => onAdd?.(item.itemID, qty)}
+                    onClick={handleAddClick}
+                    disabled={remaining <= 0 || qty > remaining}
                     sx={{
                         bgcolor: '#5B2333',
                         color: '#fff',
@@ -209,7 +219,7 @@ export function FruitCard({ item, onAdd }: FruitCardProps) {
                         '&:hover': { bgcolor: '#3E1722' },
                     }}
                 >
-                    Add
+                   {remaining <= 0 ? 'Sold out' : 'Add'}
                 </Button>
             </Box>
         </Card>
